@@ -1,0 +1,151 @@
+[
+    {
+        "propertyType": "house",
+        "photos": [
+            "https://aws.com/images/1",
+            "https://aws.com/images/2",
+            "https://aws.com/images/3"
+        ],
+        "bedrooms": [
+            {
+                "available": true,
+                "roomSize": "large",
+                "bedSize": "double",
+                "rent": 150,
+                "deposit": 300
+            },
+            {
+                "available": false,
+                "roomSize": "large",
+                "bedSize": "single",
+                "rent": 100,
+                "deposit": 200
+            },
+            {
+                "available": false,
+                "roomSize": "small",
+                "bedSize": "double",
+                "rent": 50,
+                "deposit": 100
+            }
+        ],
+        "country": "United Kingdom"
+    },
+    {
+        "propertyType": "house",
+        "photos": [
+            "https://aws.com/images/25",
+            "https://aws.com/images/26"
+        ],
+        "bedrooms": [],
+        "country": "United Kingdom"
+    },
+    {
+        "propertyType": "flat",
+        "photos": [
+            "https://aws.com/images/27",
+            "https://aws.com/images/28",
+            "https://aws.com/images/29"
+        ],
+        "bedrooms": [
+            {
+                "available": true,
+                "roomSize": "small",
+                "bedSize": "king size",
+                "rent": 200,
+                "deposit": 400
+            },
+            {
+                "available": true,
+                "roomSize": "large",
+                "bedSize": "single",
+                "rent": 250,
+                "deposit": 500
+            }
+        ],
+        "country": "United Kingdom"
+    },
+    {
+        "propertyType": "flat",
+        "photos": [
+            "https://aws.com/images/4",
+            "https://aws.com/images/5",
+            "https://aws.com/images/6",
+            "https://aws.com/images/7",
+            "https://aws.com/images/8",
+            "https://aws.com/images/9",
+            "https://aws.com/images/10",
+            "https://aws.com/images/11",
+            "https://aws.com/images/12",
+            "https://aws.com/images/13",
+            "https://aws.com/images/14",
+            "https://aws.com/images/15",
+            "https://aws.com/images/16",
+            "https://aws.com/images/17",
+            "https://aws.com/images/18"
+        ],
+        "bedrooms": [
+            {
+                "available": true,
+                "roomSize": "large",
+                "bedSize": "double",
+                "rent": 150,
+                "deposit": 300
+            },
+            {
+                "available": true,
+                "roomSize": "large",
+                "bedSize": "double",
+                "rent": 150,
+                "deposit": 300
+            }
+        ],
+        "country": "United Kingdom"
+    },
+    {
+        "propertyType": "studio",
+        "photos": [
+            "https://aws.com/images/19",
+            "https://aws.com/images/20",
+            "https://aws.com/images/21",
+            "https://aws.com/images/22",
+            "https://aws.com/images/23",
+            "https://aws.com/images/24"
+        ],
+        "bedrooms": [
+            {
+                "available": true,
+                "roomSize": "large",
+                "bedSize": "double",
+                "rent": 300,
+                "deposit": 600
+            }
+        ],
+        "country": "United Kingdom"
+    },
+    {
+        "propertyType": "studio",
+        "photos": [
+            "https://aws.com/images/30",
+            "https://aws.com/images/31",
+            "https://aws.com/images/32"
+        ],
+        "bedrooms": [
+            {
+                "available": true,
+                "roomSize": "large",
+                "bedSize": "double",
+                "rent": 300,
+                "deposit": 600
+            },
+            {
+                "available": true,
+                "roomSize": "large",
+                "bedSize": "double",
+                "rent": 300,
+                "deposit": 600
+            }
+        ],
+        "country": "Republic of Ireland"
+    }
+]
