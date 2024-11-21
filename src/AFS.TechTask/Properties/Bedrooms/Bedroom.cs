@@ -5,6 +5,9 @@
     /// </summary>
     public class Bedroom
     {
+        private static readonly string[] ValidRoomSizes = ["small", "medium", "large"];
+        private static readonly string[] ValidBedSizes = ["single", "double", "king size"];
+
         /// <summary>
         /// Whether the bedroom is available to rent.
         /// </summary>
@@ -23,23 +26,43 @@
         /// <summary>
         /// The price to rent the room.
         /// </summary>
-        public int Rent { get; init; }
+        public uint Rent { get; init; }
 
         /// <summary>
         /// The price of the deposit to rent the room.
         /// </summary>
-        public int Deposit { get; init; }
+        public uint Deposit { get; init; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="Bedroom"/> class.
         /// </summary>
         public Bedroom(bool available, string roomSize, string bedSize, int rent, int deposit)
         {
+            if (!ValidRoomSizes.Contains(roomSize, StringComparer.OrdinalIgnoreCase))
+            {
+                throw new ArgumentException($"Room size '{roomSize}' is not valid.");
+            }
+
+            if (!ValidBedSizes.Contains(bedSize, StringComparer.OrdinalIgnoreCase)) 
+            {
+                throw new ArgumentException($"Bed size '{bedSize}' is not valid.");
+            }
+
+            if (rent < 0)
+            {
+                throw new ArgumentException($"Rent price '{rent}' cannot be negative.");
+            }
+
+            if (deposit < 0)
+            {
+                throw new ArgumentException($"Deposit price '{rent}' cannot be negative.");
+            }
+
             this.Available = available;
-            this.RoomSize = roomSize;
-            this.BedSize = bedSize;
-            this.Rent = rent;
-            this.Deposit = deposit;
+            this.RoomSize = roomSize.ToLower();
+            this.BedSize = bedSize.ToLower();
+            this.Rent = (uint)rent;
+            this.Deposit = (uint)deposit;
         }
     }
 }
