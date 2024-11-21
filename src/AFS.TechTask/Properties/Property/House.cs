@@ -7,7 +7,8 @@ namespace AFS.TechTask.Properties.Property
     /// </summary>
     public class House : Property
     {
-        public override PropertyType Type => PropertyType.Studio;
+        public override PropertyType Type => PropertyType.House;
+        public const int MaxNumberOfBedrooms = 14;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="House"/> class.
@@ -15,6 +16,10 @@ namespace AFS.TechTask.Properties.Property
         public House(IReadOnlyCollection<Bedroom> bedrooms, IReadOnlyCollection<Photo> photos, Country country)
             : base(bedrooms, photos, country)
         {
+            if (bedrooms.Count < 1 || bedrooms.Count > MaxNumberOfBedrooms)
+            {
+                throw new ArgumentException($"House properties must have between 1 and {MaxNumberOfBedrooms} bedrooms but was passed {bedrooms.Count} rooms.");
+            }
         }
     }
 }
