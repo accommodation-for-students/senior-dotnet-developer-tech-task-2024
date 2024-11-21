@@ -1,7 +1,7 @@
 ﻿namespace AFS.TechTask.Properties
 {
     /// <summary>
-    /// Class representing a URI to a photograph of a property.
+    /// Represents a URI to a photograph of a property.
     /// </summary>
     public class Photo
     {
@@ -14,8 +14,13 @@
         /// Initalises a new instance of the <see cref="Photo"/> class.
         /// </summary>
         /// <param name="uri">A URI to an online photo as a string.</param>
-        public Photo(string uri) 
+        public Photo(string uri)
         {
+            // Validate that the URI string is correctly constructed, throws if invalid
+            Uri _ = new Uri(uri);
+            
+            //TODO: consider security concerns when ingesting URLs from external sources
+
             this.Uri = uri;
         }
 
