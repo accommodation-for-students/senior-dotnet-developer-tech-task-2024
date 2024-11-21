@@ -7,6 +7,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AFS.TechTask", "src\AFS.Tec
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{105095D5-C5FF-4E59-A34A-BA3B8A58201D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AFS.TechTask.UnitTests", "tests\AFS.TechTask.UnitTests\AFS.TechTask.UnitTests.csproj", "{F3D49505-F67E-4C54-ACFA-7E8419B44981}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,6 +19,10 @@ Global
 		{B00F12AD-FDAD-4E55-A65D-3B2A1DEEE570}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B00F12AD-FDAD-4E55-A65D-3B2A1DEEE570}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B00F12AD-FDAD-4E55-A65D-3B2A1DEEE570}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F3D49505-F67E-4C54-ACFA-7E8419B44981}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F3D49505-F67E-4C54-ACFA-7E8419B44981}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F3D49505-F67E-4C54-ACFA-7E8419B44981}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F3D49505-F67E-4C54-ACFA-7E8419B44981}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -5,8 +5,8 @@
     /// </summary>
     public class Country
     {
-        private const string UK = "United Kingdom";
-        private const string ROI = "Republic of Ireland";
+        public const string UK = "United Kingdom";
+        public const string ROI = "Republic of Ireland";
 
         /// <summary>
         /// The name of the country
