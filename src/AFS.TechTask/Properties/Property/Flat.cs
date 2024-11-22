@@ -8,6 +8,7 @@ namespace AFS.TechTask.Properties.Property
     public class Flat : Property
     {
         public override PropertyType Type => PropertyType.Flat;
+        public const int MinNumberOfBedrooms = 1;
         public const int MaxNumberOfBedrooms = 14;
 
         /// <summary>
@@ -16,7 +17,7 @@ namespace AFS.TechTask.Properties.Property
         public Flat(IReadOnlyCollection<Bedroom> bedrooms, IReadOnlyCollection<Photo> photos, Country country)
             : base(bedrooms, photos, country)
         {
-            if (bedrooms.Count < 1 || bedrooms.Count > MaxNumberOfBedrooms)
+            if (bedrooms.Count < MinNumberOfBedrooms || bedrooms.Count > MaxNumberOfBedrooms)
             {
                 throw new ArgumentException($"House properties must have between 1 and {MaxNumberOfBedrooms} bedrooms but was passed {bedrooms.Count} rooms.");
             }

@@ -9,9 +9,18 @@ namespace AFS.TechTask.UnitTests.Properties.Property
 {
     public class HouseTests
     {
+        [Fact]
+        public void Verify_HouseConstants_TestAssumptions()
+        {
+            // Assert
+            House.MinNumberOfBedrooms.Should().Be(1);
+            House.MaxNumberOfBedrooms.Should().Be(14);
+            House.MaxNumberOfPhotos.Should().Be(14);
+        }
+
         [Theory]
-        [InlineData(1, 0)]
-        [InlineData(1, 1)]
+        [InlineData(House.MinNumberOfBedrooms, 0)]
+        [InlineData(House.MinNumberOfBedrooms, 1)]
         [InlineData(House.MaxNumberOfBedrooms, House.MaxNumberOfPhotos)]
         public void NewHouse_ValidParams_ConstructsOK(int numOfRooms, int numOfPhotos)
         {

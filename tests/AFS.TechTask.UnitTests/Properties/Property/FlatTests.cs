@@ -9,9 +9,18 @@ namespace AFS.TechTask.UnitTests.Properties.Property
 {
     public class FlatTests
     {
+        [Fact]
+        public void Verify_FlatConstants_TestAssumptions()
+        {
+            // Assert
+            Flat.MinNumberOfBedrooms.Should().Be(1);
+            Flat.MaxNumberOfBedrooms.Should().Be(14);
+            Flat.MaxNumberOfPhotos.Should().Be(14);
+        }
+
         [Theory]
-        [InlineData(1, 0)]
-        [InlineData(1, 1)]
+        [InlineData(Flat.MinNumberOfBedrooms, 0)]
+        [InlineData(Flat.MinNumberOfBedrooms, 1)]
         [InlineData(Flat.MaxNumberOfBedrooms, Flat.MaxNumberOfPhotos)]
         public void NewFlat_ValidParams_ConstructsOK(int numOfRooms, int numOfPhotos)
         {

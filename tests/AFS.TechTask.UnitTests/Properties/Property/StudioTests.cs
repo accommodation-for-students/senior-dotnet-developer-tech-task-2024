@@ -8,6 +8,14 @@ namespace AFS.TechTask.UnitTests.Properties.Property
 {
     public class StudioTests
     {
+        [Fact]
+        public void Verify_StudioConstants_TestAssumptions()
+        {
+            // Assert
+            Studio.ExactNumberOfBedrooms.Should().Be(1);
+            Studio.MaxNumberOfPhotos.Should().Be(14);
+        }
+
         [Theory]
         [InlineData(Studio.ExactNumberOfBedrooms, 0)]
         [InlineData(Studio.ExactNumberOfBedrooms, 1)]
