@@ -1,4 +1,5 @@
 ﻿using AFS.TechTask.Common;
+using AFS.TechTask.Properties.Ingest.Models;
 
 namespace AFS.TechTask.Properties
 {
@@ -65,6 +66,14 @@ namespace AFS.TechTask.Properties
             this.BedSize = bedSize.ToLower();
             this.Rent = (uint)rent;
             this.Deposit = (uint)deposit;
+        }
+
+        /// <summary>
+        /// Initialises a new instance of the <see cref="Bedroom"/> class from a <see cref="BedroomResponse"/>.
+        /// </summary>
+        public Bedroom(BedroomResponse bedroom) 
+            : this(bedroom.Available, bedroom.RoomSize, bedroom.BedSize, bedroom.Rent, bedroom.Deposit) 
+        {
         }
     }
 }
