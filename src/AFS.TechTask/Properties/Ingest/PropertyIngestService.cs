@@ -9,7 +9,7 @@ namespace AFS.TechTask.Properties.Ingest
     /// <summary>
     /// Service for ingesting <see cref="PropertyResponse"/> from an external source.
     /// </summary>
-    public class PropertyIngestService
+    public class PropertyIngestService : IPropertyIngestService
     {
         private readonly FeatureFlagsOptions featureFlags;
 
@@ -27,7 +27,7 @@ namespace AFS.TechTask.Properties.Ingest
         /// <summary>
         /// Retrieve and validate property records from an external source.
         /// </summary>
-        /// <returns>A <see cref="PropertyIngestService"/> containing validated and invalid property records.</returns>
+        /// <returns>A <see cref="PropertyIngestResult"/> containing validated and invalid property records.</returns>
         public async Task<PropertyIngestResult> IngestPropertiesAsync()
         {
             if (!featureFlags.EnablePropertyIngest)
