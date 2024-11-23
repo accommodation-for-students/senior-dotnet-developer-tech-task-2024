@@ -1,9 +1,9 @@
-﻿namespace AFS.TechTask.Properties.Property
+﻿namespace AFS.TechTask.Properties.Properties
 {
     /// <summary>
     /// Valid property types.
     /// </summary>
-    public enum PropertyType
+    public enum PropertyTypes
     {
         Studio,
         Flat,

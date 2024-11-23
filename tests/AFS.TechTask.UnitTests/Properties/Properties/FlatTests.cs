@@ -1,11 +1,11 @@
 ﻿using AFS.TechTask.Common;
 using AFS.TechTask.Properties;
-using AFS.TechTask.Properties.Property;
+using AFS.TechTask.Properties.Properties;
 using FluentAssertions;
 
 using static AFS.TechTask.UnitTests.Properties.PropertyTestConstants;
 
-namespace AFS.TechTask.UnitTests.Properties.Property
+namespace AFS.TechTask.UnitTests.Properties.Properties
 {
     public class FlatTests
     {

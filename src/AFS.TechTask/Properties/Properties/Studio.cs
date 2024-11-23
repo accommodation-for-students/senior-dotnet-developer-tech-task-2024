@@ -1,13 +1,13 @@
 ﻿using AFS.TechTask.Common;
 
-namespace AFS.TechTask.Properties.Property
+namespace AFS.TechTask.Properties.Properties
 {
     /// <summary>
     /// Represents a 1-bedroom studio property for rent.
     /// </summary>
     public class Studio : Property
     {
-        public override PropertyType Type => PropertyType.Studio;
+        public override PropertyTypes Type => PropertyTypes.Studio;
         public const int ExactNumberOfBedrooms = 1;
 
         /// <summary>

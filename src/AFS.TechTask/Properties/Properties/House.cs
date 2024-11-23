@@ -1,20 +1,20 @@
 ﻿using AFS.TechTask.Common;
 
-namespace AFS.TechTask.Properties.Property
+namespace AFS.TechTask.Properties.Properties
 {
     /// <summary>
-    /// Represents a single or multi-tenant apartment property for rent.
+    /// Represents a multi-occupancy house (HMO) for rent.
     /// </summary>
-    public class Flat : Property
+    public class House : Property
     {
-        public override PropertyType Type => PropertyType.Flat;
+        public override PropertyTypes Type => PropertyTypes.House;
         public const int MinNumberOfBedrooms = 1;
         public const int MaxNumberOfBedrooms = 14;
 
         /// <summary>
-        /// Initialises a new instance of the <see cref="Flat"/> class.
+        /// Initialises a new instance of the <see cref="House"/> class.
         /// </summary>
-        public Flat(IReadOnlyCollection<Bedroom> bedrooms, IReadOnlyCollection<Photo> photos, Country country)
+        public House(IReadOnlyCollection<Bedroom> bedrooms, IReadOnlyCollection<Photo> photos, Country country)
             : base(bedrooms, photos, country)
         {
             if (bedrooms.Count < MinNumberOfBedrooms || bedrooms.Count > MaxNumberOfBedrooms)

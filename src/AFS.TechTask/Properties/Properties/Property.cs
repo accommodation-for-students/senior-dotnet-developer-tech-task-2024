@@ -1,6 +1,6 @@
 ﻿using AFS.TechTask.Common;
 
-namespace AFS.TechTask.Properties.Property
+namespace AFS.TechTask.Properties.Properties
 {
     /// <summary>
     /// Base class for all property types
@@ -12,7 +12,7 @@ namespace AFS.TechTask.Properties.Property
         /// <summary>
         /// The type of the property
         /// </summary>
-        public abstract PropertyType Type { get; }
+        public abstract PropertyTypes Type { get; }
 
         /// <summary>
         /// The bedrooms for rent in the property
