@@ -18,7 +18,7 @@ namespace AFS.TechTask.Properties.Properties
         {
             if (bedrooms.Count != ExactNumberOfBedrooms)
             {
-                throw new ArgumentException($"Studio properties can only have {ExactNumberOfBedrooms} bedroom but was passed {bedrooms.Count} rooms.");
+                throw new InvalidNumberOfBedroomsException(this.Type, ExactNumberOfBedrooms, bedrooms.Count);
             }
         }
     }

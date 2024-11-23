@@ -1,4 +1,6 @@
-﻿namespace AFS.TechTask.Common
+﻿using AFS.TechTask.Properties;
+
+namespace AFS.TechTask.Common
 {
     /// <summary>
     /// Represents the country that a property is situated.
@@ -25,13 +27,13 @@
 
         public Country(string country)
         {
-            Name = country;
+            this.Name = country;
 
-            (CurrencySymbol, CurrencyAcronym) = country switch
+            (this.CurrencySymbol, this.CurrencyAcronym) = country switch
             {
                 UK => ('£', "GBP"),
                 ROI => ('€', "EUR"),
-                _ => throw new ArgumentException($"{country} is not a supported country.")
+                _ => throw new InvalidCountryException(country)
             };
         }
     }

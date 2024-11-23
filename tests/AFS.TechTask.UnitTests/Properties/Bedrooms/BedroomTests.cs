@@ -1,4 +1,5 @@
-﻿using AFS.TechTask.Properties;
+﻿using AFS.TechTask.Common;
+using AFS.TechTask.Properties;
 using FluentAssertions;
 
 namespace AFS.TechTask.UnitTests.Properties.Bedrooms
@@ -48,7 +49,7 @@ namespace AFS.TechTask.UnitTests.Properties.Bedrooms
                 deposit: 750);
 
             // Assert
-            action.Should().Throw<ArgumentException>();
+            action.Should().Throw<InvalidBedSizeException>();
         }
 
         [Theory]
@@ -89,7 +90,7 @@ namespace AFS.TechTask.UnitTests.Properties.Bedrooms
                 deposit: 750);
 
             // Assert
-            action.Should().Throw<ArgumentException>();
+            action.Should().Throw<NegativeCurrencyException>();
         }
 
         [Theory]
@@ -125,7 +126,7 @@ namespace AFS.TechTask.UnitTests.Properties.Bedrooms
                 deposit: deposit);
 
             // Assert
-            action.Should().Throw<ArgumentException>();
+            action.Should().Throw<NegativeCurrencyException>();
         }
 
         [Theory]

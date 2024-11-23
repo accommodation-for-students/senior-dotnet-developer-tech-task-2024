@@ -32,7 +32,7 @@ namespace AFS.TechTask.UnitTests.Properties.Common
             Action action = () => new Country(countryName);
 
             // Assert
-            action.Should().Throw<ArgumentException>();
+            action.Should().Throw<InvalidCountryException>();
         }
     }
 }

@@ -68,7 +68,7 @@ namespace AFS.TechTask.UnitTests.Properties.Properties
             Action action = () => CreateFlat(bedrooms);
 
             // Assert
-            action.Should().Throw<ArgumentException>();
+            action.Should().Throw<InvalidNumberOfBedroomsException>();
         }
 
         [Theory]
@@ -83,7 +83,7 @@ namespace AFS.TechTask.UnitTests.Properties.Properties
             Action action = () => CreateFlat(photos: photos);
 
             // Assert
-            action.Should().Throw<ArgumentException>();
+            action.Should().Throw<InvalidNumberOfPhotosException>();
         }
 
         [Theory]

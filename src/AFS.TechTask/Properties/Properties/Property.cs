@@ -40,7 +40,7 @@ namespace AFS.TechTask.Properties.Properties
 
             if (photos.Count > MaxNumberOfPhotos)
             {
-                throw new ArgumentException($"{photos.Count} exceeds the maximum number of photos ({MaxNumberOfPhotos}).");
+                throw new InvalidNumberOfPhotosException(MaxNumberOfPhotos, photos.Count);
             }
 
             this.Bedrooms = bedrooms;

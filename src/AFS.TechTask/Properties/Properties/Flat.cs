@@ -19,7 +19,7 @@ namespace AFS.TechTask.Properties.Properties
         {
             if (bedrooms.Count < MinNumberOfBedrooms || bedrooms.Count > MaxNumberOfBedrooms)
             {
-                throw new ArgumentException($"House properties must have between 1 and {MaxNumberOfBedrooms} bedrooms but was passed {bedrooms.Count} rooms.");
+                throw new InvalidNumberOfBedroomsException(this.Type, MaxNumberOfBedrooms, bedrooms.Count);
             }
         }
     }

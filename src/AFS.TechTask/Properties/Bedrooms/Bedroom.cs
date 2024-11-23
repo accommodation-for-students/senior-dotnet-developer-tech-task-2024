@@ -1,4 +1,6 @@
-﻿namespace AFS.TechTask.Properties
+﻿using AFS.TechTask.Common;
+
+namespace AFS.TechTask.Properties
 {
     /// <summary>
     /// Represents a bedroom in a property for rent.
@@ -40,22 +42,22 @@
         {
             if (!ValidRoomSizes.Contains(roomSize, StringComparer.OrdinalIgnoreCase))
             {
-                throw new ArgumentException($"Room size '{roomSize}' is not valid.");
+                throw new InvalidRoomSizeException(roomSize);
             }
 
             if (!ValidBedSizes.Contains(bedSize, StringComparer.OrdinalIgnoreCase)) 
             {
-                throw new ArgumentException($"Bed size '{bedSize}' is not valid.");
+                throw new InvalidBedSizeException(bedSize);
             }
 
             if (rent < 0)
             {
-                throw new ArgumentException($"Rent price '{rent}' cannot be negative.");
+                throw new NegativeCurrencyException(nameof(Rent), rent);
             }
 
             if (deposit < 0)
             {
-                throw new ArgumentException($"Deposit price '{rent}' cannot be negative.");
+                throw new NegativeCurrencyException(nameof(Deposit), deposit);
             }
 
             this.Available = available;
