@@ -7,6 +7,8 @@ using FluentAssertions;
 using Microsoft.Extensions.Options;
 using Moq;
 
+using static AFS.TechTask.UnitTests.Constants.PropertyTestConstants;
+
 namespace AFS.TechTask.UnitTests.Application.Properties
 {
     public class PropertyServiceTests
@@ -42,7 +44,7 @@ namespace AFS.TechTask.UnitTests.Application.Properties
 
             // Assert
             mockPropertyIngestService.Verify(x => x.IngestPropertiesAsync(), Times.Never);
-            mockPropertiesRepository.Verify(x => x.UpsertPropertiesAsync(It.IsAny<DateTime>(), It.IsAny<IReadOnlyCollection<Property>>()), Times.Never);
+            mockPropertiesRepository.Verify(x => x.InsertPropertyAsync(It.IsAny<DateTime>(), It.IsAny<Property>()), Times.Never);
         }
 
         [Fact]
@@ -58,14 +60,17 @@ namespace AFS.TechTask.UnitTests.Application.Properties
             // Assert
             await action.Should().NotThrowAsync();
             mockPropertyIngestService.Verify(x => x.IngestPropertiesAsync(), Times.Once);
-            mockPropertiesRepository.Verify(x => x.UpsertPropertiesAsync(It.IsAny<DateTime>(), It.IsAny<IReadOnlyCollection<Property>>()), Times.Never);
+            mockPropertiesRepository.Verify(x => x.InsertPropertyAsync(It.IsAny<DateTime>(), It.IsAny<Property>()), Times.Never);
         }
 
         [Fact]
         public async Task RunIngestPropertiesJobAsync_IngestSucceeds_PersistsProperties()
         {
             // Arrange
-            PropertyIngestResult result = new (Run: DateTime.Now, Success: true, ValidProperties: [], InvalidProperties: []);
+            Property property1 = CreateProperty();
+            Property property2 = CreateProperty();
+            Property property3 = CreateProperty();
+            PropertyIngestResult result = new (Run: DateTime.Now, Success: true, ValidProperties: [property1, property2, property3], InvalidProperties: []);
 
             mockPropertyIngestService.Setup(x => x.IngestPropertiesAsync())
                 .ReturnsAsync(result);
@@ -76,7 +81,9 @@ namespace AFS.TechTask.UnitTests.Application.Properties
             // Assert
             await action.Should().NotThrowAsync();
             mockPropertyIngestService.Verify(x => x.IngestPropertiesAsync(), Times.Once);
-            mockPropertiesRepository.Verify(x => x.UpsertPropertiesAsync(result.Run, result.ValidProperties), Times.Once);
+            mockPropertiesRepository.Verify(x => x.InsertPropertyAsync(result.Run, property1), Times.Once);
+            mockPropertiesRepository.Verify(x => x.InsertPropertyAsync(result.Run, property2), Times.Once);
+            mockPropertiesRepository.Verify(x => x.InsertPropertyAsync(result.Run, property3), Times.Once);
         }
     }
 }

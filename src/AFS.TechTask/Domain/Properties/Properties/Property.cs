@@ -10,6 +10,11 @@ namespace AFS.TechTask.Domain.Properties
         public const int MaxNumberOfPhotos = 14;
 
         /// <summary>
+        /// Id of the property, once persisted.
+        /// </summary>
+        public int Id { get; init; }
+
+        /// <summary>
         /// The type of the property
         /// </summary>
         public abstract PropertyTypes Type { get; }
@@ -28,6 +33,11 @@ namespace AFS.TechTask.Domain.Properties
         /// The country the property is located in.
         /// </summary>
         public Country Country { get; }
+
+        /// <summary>
+        /// When the property values were last updated.
+        /// </summary>
+        public DateTime LastUpdated { get; init; }
 
         /// <summary>
         /// Base constructor for a class derived from the <see cref="Property"/> class.

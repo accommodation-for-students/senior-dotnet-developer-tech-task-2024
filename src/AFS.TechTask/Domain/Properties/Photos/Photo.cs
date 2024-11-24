@@ -6,6 +6,16 @@
     public class Photo
     {
         /// <summary>
+        /// Id of the photo, once persisted.
+        /// </summary>
+        public int Id { get; init; }
+
+        /// <summary>
+        /// The Id of the property the photo is of, once persisted.
+        /// </summary>
+        public int PropertyId { get; init; }
+
+        /// <summary>
         /// String representing a URI to a photograph of a property.
         /// </summary>
         public string Uri { get; }

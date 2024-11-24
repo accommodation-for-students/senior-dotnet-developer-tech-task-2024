@@ -11,29 +11,39 @@ namespace AFS.TechTask.Domain.Properties
         private static readonly string[] ValidBedSizes = ["single", "double", "king size"];
 
         /// <summary>
+        /// Id of the bedroom, once persisted.
+        /// </summary>
+        public int Id { get; init; }
+
+        /// <summary>
+        /// The Id of the property the bedroom is in, once persisted.
+        /// </summary>
+        public int PropertyId { get; init; }
+
+        /// <summary>
         /// Whether the bedroom is available to rent.
         /// </summary>
-        public bool Available { get; init; }
+        public bool Available { get; }
 
         /// <summary>
         /// The size of the room (small, medium or large).
         /// </summary>
-        public string RoomSize { get; init; }
+        public string RoomSize { get; }
 
         /// <summary>
         /// The size of the bed (single, double or King Size).
         /// </summary>
-        public string BedSize { get; init; }
+        public string BedSize { get; }
 
         /// <summary>
         /// The price to rent the room.
         /// </summary>
-        public uint Rent { get; init; }
+        public uint Rent { get; }
 
         /// <summary>
         /// The price of the deposit to rent the room.
         /// </summary>
-        public uint Deposit { get; init; }
+        public uint Deposit { get; }
 
         /// <summary>
         /// Initialises a new instance of the <see cref="Bedroom"/> class.

@@ -8,11 +8,12 @@ namespace AFS.TechTask.Data.Properties
     public interface IPropertiesRepository
     {
         /// <summary>
-        /// Insert or update a collection of ingested properties.
+        /// Insert a <see cref="Property"/>.
         /// </summary>
-        /// <param name="ingested">The timestamp for when the given properties were ingested.</param>
-        /// <param name="properties">The properties to add or update.</param>
-        Task UpsertPropertiesAsync(DateTime ingested, IReadOnlyCollection<Property> properties);
+        /// <param name="ingestRunIdentifier">The timestamp for when the given property was ingested.</param>
+        /// <param name="property">The property to add.</param>
+        /// <returns>The Id of the created property.</returns>
+        Task<int> InsertPropertyAsync(DateTime ingestRunIdentifier, Property property);
 
         /// <summary>
         /// Retrieve a <see cref="Property"/> with the given Id.
@@ -20,11 +21,5 @@ namespace AFS.TechTask.Data.Properties
         /// <param name="propertyId">The Id of the property to retrieve.</param>
         /// <returns>The <see cref="Property"/> with the given Id.</returns>
         Task<Property> GetPropertyByIdAsync(int propertyId);
-
-        /// <summary>
-        /// Retrieve a collection of all <see cref="Property"/>.
-        /// </summary>
-        /// <returns>A collection of all <see cref="Property"/>.</returns>
-        Task<IReadOnlyCollection<Property>> GetAllPropertiesAsync();
     }
 }

@@ -5,8 +5,8 @@
     /// </summary>
     public enum PropertyTypes
     {
-        Studio,
-        Flat,
-        House
+        Studio = 1,
+        Flat = 2,
+        House = 3
     }
 }
