@@ -3,6 +3,8 @@ using AFS.TechTask.Domain.Properties;
 using AFS.TechTask.Infrastructure;
 using Microsoft.Extensions.Options;
 using Serilog;
+using System.Data;
+using System.Data.Common;
 using System.Transactions;
 
 namespace AFS.TechTask.Data.Properties
@@ -12,6 +14,7 @@ namespace AFS.TechTask.Data.Properties
     /// </summary>
     public class PropertiesRepository : IPropertiesRepository
     {
+        private readonly IDbConnectionFactory dbConnectionFactory;
         private readonly IPropertiesDataSource properties;
         private readonly IBedroomsDataSource bedrooms;
         private readonly IPhotosDataSource photos;
@@ -20,9 +23,14 @@ namespace AFS.TechTask.Data.Properties
         /// <summary>
         /// Initialises a new instance of the <see cref="PropertiesRepository"/> class.
         /// </summary>
-        public PropertiesRepository(IPropertiesDataSource properties, IBedroomsDataSource bedrooms, IPhotosDataSource photos,
+        public PropertiesRepository(
+            IDbConnectionFactory dbConnectionFactory, 
+            IPropertiesDataSource properties, 
+            IBedroomsDataSource bedrooms, 
+            IPhotosDataSource photos,
             IOptions<FeatureFlagsOptions> featureFlags) 
         { 
+            this.dbConnectionFactory = dbConnectionFactory;
             this.properties = properties;
             this.bedrooms = bedrooms;
             this.photos = photos;
@@ -37,44 +45,49 @@ namespace AFS.TechTask.Data.Properties
         /// <returns>The Id of the created property.</returns>
         public async Task<int> InsertPropertyAsync(DateTime ingestRunIdentifier, Property property)
         {
-            try
+            using (IDbConnection connection = await this.dbConnectionFactory.CreateConnectionAsync())
             {
-                using (TransactionScope transaction = new TransactionScope())
+                using (IDbTransaction transaction = connection.BeginTransaction())
                 {
-                    int propertyId = await this.properties.InsertPropertyAsync(new PropertyDataModel()
+                    try
                     {
-                        PropertyType = (int)property.Type,
-                        Country = property.Country.Name,
-                        IngestRunId = ingestRunIdentifier
-                    });
 
-                    Task bedroomsTask = this.bedrooms.InsertBedroomsAsync(property.Bedrooms.Select(b => new BedroomDataModel()
+                        int propertyId = await this.properties.InsertPropertyAsync(new PropertyDataModel()
+                        {
+                            PropertyType = (int)property.Type,
+                            Country = property.Country.Name,
+                            IngestRunId = ingestRunIdentifier
+                        }, transaction);
+
+                        Task bedroomsTask = this.bedrooms.InsertBedroomsAsync(property.Bedrooms.Select(b => new BedroomDataModel()
+                        {
+                            PropertyId = propertyId,
+                            Available = b.Available,
+                            RoomSize = b.RoomSize,
+                            BedSize = b.BedSize,
+                            Rent = (int)b.Rent,
+                            Deposit = (int)b.Deposit
+                        }).ToArray(), transaction);
+
+                        Task photosTask = this.photos.InsertPhotosAsync(property.Photos.Select(b => new PhotoDataModel()
+                        {
+                            PropertyId = propertyId,
+                            Uri = b.Uri
+                        }).ToArray(), transaction);
+
+                        await Task.WhenAll(bedroomsTask, photosTask);
+
+                        transaction.Commit();
+
+                        return propertyId;
+                    }
+                    catch (Exception e)
                     {
-                        PropertyId = property.Id,
-                        Available = b.Available,
-                        RoomSize = b.RoomSize,
-                        BedSize = b.BedSize,
-                        Rent = (int)b.Rent,
-                        Deposit = (int)b.Deposit
-                    }).ToArray());
-
-                    Task photosTask = this.photos.InsertPhotosAsync(property.Photos.Select(b => new PhotoDataModel()
-                    {
-                        PropertyId = property.Id,
-                        Uri = b.Uri
-                    }).ToArray());
-
-                    await Task.WhenAll(bedroomsTask, photosTask);
-
-                    transaction.Complete();
-
-                    return propertyId;
+                        Log.Error(e, "Failed to insert property.");
+                        transaction.Rollback();
+                        throw;
+                    }
                 }
-            }
-            catch (Exception e)
-            {
-                Log.Error(e, "Failed to insert property.");
-                throw;
             }
         }
 
@@ -108,5 +121,7 @@ namespace AFS.TechTask.Data.Properties
                 throw;
             }
         }
+
+
     }
 }

@@ -1,4 +1,6 @@
-﻿namespace AFS.TechTask.Data.Properties
+﻿using System.Data;
+
+namespace AFS.TechTask.Data.Properties
 {
     /// <summary>
     /// Datasource for the Photo table
@@ -6,10 +8,11 @@
     public interface IPhotosDataSource
     {
         /// <summary>
-        /// Insert or update a set of <see cref="PhotoDataModel"/>s, replacing any previous photos.
+        /// Insert a set of <see cref="PhotoDataModel"/>s for a property.
         /// </summary>
-        /// <param name="photos">The photos to upsert.</param>
-        Task InsertPhotosAsync(ICollection<PhotoDataModel> photos);
+        /// <param name="photos">The photos to insert.</param>
+        /// <param name="transaction">Optional transaction to execute within.</param>
+        Task InsertPhotosAsync(ICollection<PhotoDataModel> photos, IDbTransaction transaction = null);
 
         /// <summary>
         /// Retrieve all <see cref="PhotoDataModel"/>s associated with a property.

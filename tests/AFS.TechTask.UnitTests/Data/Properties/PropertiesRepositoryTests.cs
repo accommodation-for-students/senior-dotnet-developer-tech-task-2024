@@ -6,7 +6,7 @@ using AFS.TechTask.Infrastructure;
 using FluentAssertions;
 using Microsoft.Extensions.Options;
 using Moq;
-
+using System.Data;
 using static AFS.TechTask.UnitTests.Constants.PropertyTestConstants;
 
 namespace AFS.TechTask.UnitTests.Data.Properties
@@ -15,6 +15,7 @@ namespace AFS.TechTask.UnitTests.Data.Properties
     {
         private readonly PropertiesRepository repository;
 
+        private readonly Mock<IDbConnectionFactory> mockDbConnectionFactory;
         private readonly Mock<IPropertiesDataSource> mockPropertiesDataSource;
         private readonly Mock<IBedroomsDataSource> mockBedroomsDataSource;
         private readonly Mock<IPhotosDataSource> mockPhotosDataSource;
@@ -26,11 +27,23 @@ namespace AFS.TechTask.UnitTests.Data.Properties
 
         public PropertiesRepositoryTests()
         {
+            this.mockDbConnectionFactory = new Mock<IDbConnectionFactory>(MockBehavior.Strict);
             this.mockPropertiesDataSource = new Mock<IPropertiesDataSource>(MockBehavior.Strict);
             this.mockBedroomsDataSource = new Mock<IBedroomsDataSource>(MockBehavior.Strict);
             this.mockPhotosDataSource = new Mock<IPhotosDataSource>(MockBehavior.Strict);
 
+            var mockConnection = new Mock<IDbConnection>(MockBehavior.Strict);
+            var mockTransaction = new Mock<IDbTransaction>(MockBehavior.Strict);
+
+            mockTransaction.Setup(x => x.Commit());
+            mockTransaction.Setup(x => x.Dispose());
+            mockConnection.Setup(x => x.BeginTransaction()).Returns(mockTransaction.Object);
+            mockConnection.Setup(x => x.Dispose());
+
+            this.mockDbConnectionFactory.Setup(x => x.CreateConnectionAsync()).ReturnsAsync(mockConnection.Object);
+
             this.repository = new PropertiesRepository(
+                this.mockDbConnectionFactory.Object,
                 this.mockPropertiesDataSource.Object,
                 this.mockBedroomsDataSource.Object,
                 this.mockPhotosDataSource.Object,
@@ -42,7 +55,9 @@ namespace AFS.TechTask.UnitTests.Data.Properties
         {
             // Arrange
             PropertyIngestResult expected = PropertyIngestResult.InvalidResult(DateTime.Now);
-            PropertiesRepository sut = new PropertiesRepository(this.mockPropertiesDataSource.Object,
+            PropertiesRepository sut = new PropertiesRepository(
+                this.mockDbConnectionFactory.Object,
+                this.mockPropertiesDataSource.Object,
                 this.mockBedroomsDataSource.Object,
                 this.mockPhotosDataSource.Object,
                 Options.Create(new FeatureFlagsOptions()
@@ -65,9 +80,9 @@ namespace AFS.TechTask.UnitTests.Data.Properties
                 BedroomDataModels(Studio.ExactNumberOfBedrooms),
                 PhotoDataModels(Studio.MaxNumberOfPhotos));
 
-            this.mockPropertiesDataSource.Setup(x => x.InsertPropertyAsync(It.IsAny<PropertyDataModel>())).ReturnsAsync(PropertyId);
-            this.mockBedroomsDataSource.Setup(x => x.InsertBedroomsAsync(It.IsAny<ICollection<BedroomDataModel>>())).Returns(Task.CompletedTask);
-            this.mockPhotosDataSource.Setup(x => x.InsertPhotosAsync(It.IsAny<ICollection<PhotoDataModel>>())).Returns(Task.CompletedTask);
+            this.mockPropertiesDataSource.Setup(x => x.InsertPropertyAsync(It.IsAny<PropertyDataModel>(), It.IsAny<IDbTransaction>())).ReturnsAsync(PropertyId);
+            this.mockBedroomsDataSource.Setup(x => x.InsertBedroomsAsync(It.IsAny<ICollection<BedroomDataModel>>(), It.IsAny<IDbTransaction>())).Returns(Task.CompletedTask);
+            this.mockPhotosDataSource.Setup(x => x.InsertPhotosAsync(It.IsAny<ICollection<PhotoDataModel>>(), It.IsAny<IDbTransaction>())).Returns(Task.CompletedTask);
 
             // Act
             int result = await this.repository.InsertPropertyAsync(DateTime.MinValue, input);
