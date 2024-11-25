@@ -102,5 +102,40 @@ namespace AFS.TechTask.IntegrationTests.Data.Properties
             (await action.Should().ThrowAsync<SqliteException>())
                 .Which.Message.Should().Contain("UNIQUE");
         }
+
+        [Fact]
+        public async Task ReplacePhotosAsync_WorksAsExpected()
+        {
+            // Arrange
+            int propertyId = await this.properties.InsertPropertyAsync(new()
+            {
+                PropertyType = (int)PropertyTypes.Studio,
+                Country = ROI.Name,
+                IngestRunId = 10.June(2024)
+            });
+
+            PhotoDataModel[] originalPhotos =
+            [
+                new () { PropertyId = propertyId, Uri = "http://aws.images/10" },
+                new () { PropertyId = propertyId, Uri = "http://aws.images/11" },
+                new () { PropertyId = propertyId, Uri = "http://aws.images/12" }
+            ];
+
+            await this.dataSource.InsertPhotosAsync(originalPhotos);
+
+            PhotoDataModel[] newPhotos =
+            [
+                new () { PropertyId = propertyId, Uri = "http://aws.images/20" },
+                new () { PropertyId = propertyId, Uri = "http://aws.images/21" },
+                new () { PropertyId = propertyId, Uri = "http://aws.images/22" }
+            ];
+
+            // Act
+            await this.dataSource.ReplacePhotosAsync(propertyId, newPhotos);
+
+            // Assert
+            ICollection<PhotoDataModel> results = await this.dataSource.GetPhotosByPropertyIdAsync(propertyId);
+            results.Should().BeEquivalentTo(newPhotos, o => o.Excluding(p => p.PhotoId));
+        }
     }
 }

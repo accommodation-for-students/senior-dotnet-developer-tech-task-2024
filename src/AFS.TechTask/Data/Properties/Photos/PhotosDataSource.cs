@@ -42,6 +42,25 @@ namespace AFS.TechTask.Data.Properties.Photos
         }
 
         /// <summary>
+        /// Replace any existing photos of a property with the given set of <see cref="PhotoDataModel"/>s.
+        /// </summary>
+        /// <param name="photos">The photos to upsert.</param>
+        public async Task ReplacePhotosAsync(int propertyId, ICollection<PhotoDataModel> photos)
+        {
+            const string deleteSql = "DELETE FROM Photo WHERE PropertyId = @PropertyId;";
+            const string insertSql = "INSERT INTO Photo (PropertyId, Uri) VALUES (@PropertyId, @Uri);";
+
+            using (IDbConnection connection = await this.dbConnectionFactory.CreateConnectionAsync())
+            using (IDbTransaction transaction = connection.BeginTransaction())
+            {
+                await connection.ExecuteAsync(deleteSql, new { PropertyId = propertyId });
+                await connection.ExecuteAsync(insertSql, photos);
+
+                transaction.Commit();
+            }
+        }
+
+        /// <summary>
         /// Retrieve all <see cref="PhotoDataModel"/>s associated with a property.
         /// </summary>
         /// <param name="propertyId">The Id of the property the photos belong to.</param>

@@ -15,6 +15,12 @@ namespace AFS.TechTask.Data.Properties
         Task InsertPhotosAsync(ICollection<PhotoDataModel> photos, IDbTransaction transaction = null);
 
         /// <summary>
+        /// Replace any existing photos of a property with the given set of <see cref="PhotoDataModel"/>s.
+        /// </summary>
+        /// <param name="photos">The photos to upsert.</param>
+        Task ReplacePhotosAsync(int propertyId, ICollection<PhotoDataModel> photos);
+
+        /// <summary>
         /// Retrieve all <see cref="PhotoDataModel"/>s associated with a property.
         /// </summary>
         /// <param name="propertyId">The Id of the property the photos belong to.</param>
