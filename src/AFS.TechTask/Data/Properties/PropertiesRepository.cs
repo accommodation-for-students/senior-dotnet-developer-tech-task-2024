@@ -4,8 +4,6 @@ using AFS.TechTask.Infrastructure;
 using Microsoft.Extensions.Options;
 using Serilog;
 using System.Data;
-using System.Data.Common;
-using System.Transactions;
 
 namespace AFS.TechTask.Data.Properties
 {
@@ -18,7 +16,6 @@ namespace AFS.TechTask.Data.Properties
         private readonly IPropertiesDataSource properties;
         private readonly IBedroomsDataSource bedrooms;
         private readonly IPhotosDataSource photos;
-        private readonly FeatureFlagsOptions featureFlags;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="PropertiesRepository"/> class.
@@ -27,14 +24,12 @@ namespace AFS.TechTask.Data.Properties
             IDbConnectionFactory dbConnectionFactory, 
             IPropertiesDataSource properties, 
             IBedroomsDataSource bedrooms, 
-            IPhotosDataSource photos,
-            IOptions<FeatureFlagsOptions> featureFlags) 
+            IPhotosDataSource photos) 
         { 
             this.dbConnectionFactory = dbConnectionFactory;
             this.properties = properties;
             this.bedrooms = bedrooms;
             this.photos = photos;
-            this.featureFlags = featureFlags.Value;
         }
 
         /// <summary>
@@ -98,11 +93,6 @@ namespace AFS.TechTask.Data.Properties
         /// <returns>The <see cref="Property"/> with the given Id.</returns>
         public async Task<Property> GetPropertyByIdAsync(int propertyId)
         {
-            if (!featureFlags.EnablePropertyIngest)
-            {
-                throw new NotImplementedException();
-            }
-
             try
             {
                 Task<PropertyDataModel> propertyTask = this.properties.GetPropertyByIdAsync(propertyId);

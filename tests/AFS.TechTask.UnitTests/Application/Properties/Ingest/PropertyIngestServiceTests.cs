@@ -17,15 +17,10 @@ namespace AFS.TechTask.UnitTests.Application.Properties
 
         private readonly Mock<IPropertyIngestClient> mockClient;
 
-        private static readonly IOptions<FeatureFlagsOptions> FeatureFlagsOptions = Options.Create(new FeatureFlagsOptions()
-        {
-            EnablePropertyIngest = true
-        });
-
         public PropertyIngestServiceTests()
         {
             this.mockClient = new Mock<IPropertyIngestClient>(MockBehavior.Strict);
-            this.service = new PropertyIngestService(this.mockClient.Object, FeatureFlagsOptions);
+            this.service = new PropertyIngestService(this.mockClient.Object);
         }
 
         [Fact]
@@ -33,10 +28,7 @@ namespace AFS.TechTask.UnitTests.Application.Properties
         {
             // Arrange
             PropertyIngestResult expected = PropertyIngestResult.InvalidResult(DateTime.Now);
-            PropertyIngestService sut = new PropertyIngestService(this.mockClient.Object, Options.Create(new FeatureFlagsOptions()
-            {
-                EnablePropertyIngest = false
-            }));
+            PropertyIngestService sut = new PropertyIngestService(this.mockClient.Object);
 
             // Act
             PropertyIngestResult result = await sut.IngestPropertiesAsync();

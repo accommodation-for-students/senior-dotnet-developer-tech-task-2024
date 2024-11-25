@@ -20,11 +20,6 @@ namespace AFS.TechTask.UnitTests.Data.Properties
         private readonly Mock<IBedroomsDataSource> mockBedroomsDataSource;
         private readonly Mock<IPhotosDataSource> mockPhotosDataSource;
 
-        private static readonly IOptions<FeatureFlagsOptions> FeatureFlagsOptions = Options.Create(new FeatureFlagsOptions()
-        {
-            EnablePropertyIngest = true
-        });
-
         public PropertiesRepositoryTests()
         {
             this.mockDbConnectionFactory = new Mock<IDbConnectionFactory>(MockBehavior.Strict);
@@ -46,30 +41,7 @@ namespace AFS.TechTask.UnitTests.Data.Properties
                 this.mockDbConnectionFactory.Object,
                 this.mockPropertiesDataSource.Object,
                 this.mockBedroomsDataSource.Object,
-                this.mockPhotosDataSource.Object,
-                FeatureFlagsOptions);
-        }
-
-        [Fact]
-        public async Task GetPropertyByIdAsync_FeatureFlagDisabled_ThrowsNotImplementedException()
-        {
-            // Arrange
-            PropertyIngestResult expected = PropertyIngestResult.InvalidResult(DateTime.Now);
-            PropertiesRepository sut = new PropertiesRepository(
-                this.mockDbConnectionFactory.Object,
-                this.mockPropertiesDataSource.Object,
-                this.mockBedroomsDataSource.Object,
-                this.mockPhotosDataSource.Object,
-                Options.Create(new FeatureFlagsOptions()
-                {
-                    EnablePropertyIngest = false
-                }));
-
-            // Act
-            Func<Task> action = () => sut.GetPropertyByIdAsync(123);
-
-            // Assert
-            await action.Should().ThrowAsync<NotImplementedException>();
+                this.mockPhotosDataSource.Object);
         }
 
         [Fact]

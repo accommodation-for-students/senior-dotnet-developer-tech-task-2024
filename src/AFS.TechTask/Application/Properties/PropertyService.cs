@@ -1,8 +1,6 @@
 ﻿using AFS.TechTask.Application.Properties.Ingest;
 using AFS.TechTask.Data.Properties;
 using AFS.TechTask.Domain.Properties;
-using AFS.TechTask.Infrastructure;
-using Microsoft.Extensions.Options;
 using Serilog;
 
 namespace AFS.TechTask.Application.Properties
@@ -12,19 +10,16 @@ namespace AFS.TechTask.Application.Properties
     /// </summary>
     public class PropertyService : IPropertyService
     {
-        private readonly FeatureFlagsOptions featureFlags;
-
         private readonly IPropertyIngestService propertyIngest;
         private readonly IPropertiesRepository propertiesRepository;
 
         /// <summary>
         /// Initialises a new instance of the <see cref="PropertyService"/> class.
         /// </summary>
-        public PropertyService(IPropertyIngestService propertyIngestService, IPropertiesRepository propertiesRepository, IOptions<FeatureFlagsOptions> featureFlags) 
+        public PropertyService(IPropertyIngestService propertyIngestService, IPropertiesRepository propertiesRepository) 
         {
             this.propertyIngest = propertyIngestService;
             this.propertiesRepository = propertiesRepository;
-            this.featureFlags = featureFlags.Value;
         }
 
         /// <summary>
@@ -32,11 +27,6 @@ namespace AFS.TechTask.Application.Properties
         /// </summary>
         public async Task RunIngestPropertiesJobAsync()
         { 
-            if (!featureFlags.EnablePropertyIngest)
-            {
-                return;
-            }
-
             Log.Information("Starting ingest properties job.");
 
             PropertyIngestResult result = await this.propertyIngest.IngestPropertiesAsync();

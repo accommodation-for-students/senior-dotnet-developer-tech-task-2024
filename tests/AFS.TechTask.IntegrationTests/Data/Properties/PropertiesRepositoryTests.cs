@@ -24,11 +24,6 @@ namespace AFS.TechTask.IntegrationTests.Data.Properties
         private readonly Mock<IBedroomsDataSource> mockBedroomsDataSource;
         private readonly Mock<IPhotosDataSource> mockPhotosDataSource;
 
-        private static readonly IOptions<FeatureFlagsOptions> FeatureFlagsOptions = Options.Create(new FeatureFlagsOptions()
-        {
-            EnablePropertyIngest = true
-        });
-
         public PropertiesRepositoryTests()
         {
             this.dbConnectionFactory = new DbConnectionFactory(Options.Create(new ConnectionStringOptions()));
@@ -40,28 +35,6 @@ namespace AFS.TechTask.IntegrationTests.Data.Properties
             this.mockPropertiesDataSource = new Mock<IPropertiesDataSource>(MockBehavior.Strict);
             this.mockBedroomsDataSource = new Mock<IBedroomsDataSource>(MockBehavior.Strict);
             this.mockPhotosDataSource = new Mock<IPhotosDataSource>(MockBehavior.Strict);
-        }
-
-        [Fact]
-        public async Task GetPropertyByIdAsync_FeatureFlagDisabled_ThrowsNotImplementedException()
-        {
-            // Arrange
-            PropertyIngestResult expected = PropertyIngestResult.InvalidResult(DateTime.Now);
-            PropertiesRepository sut = new PropertiesRepository(
-                this.dbConnectionFactory,
-                this.mockPropertiesDataSource.Object,
-                this.mockBedroomsDataSource.Object,
-                this.mockPhotosDataSource.Object,
-                Options.Create(new FeatureFlagsOptions()
-                {
-                    EnablePropertyIngest = false
-                }));
-
-            // Act
-            Func<Task> action = () => sut.GetPropertyByIdAsync(123);
-
-            // Assert
-            await action.Should().ThrowAsync<NotImplementedException>();
         }
 
         [Fact]
@@ -187,8 +160,7 @@ namespace AFS.TechTask.IntegrationTests.Data.Properties
                 this.dbConnectionFactory,
                 properties ?? this.propertiesDataSource,
                 bedrooms ?? this.bedroomsDataSource,
-                photos ?? this.photosDataSource,
-                FeatureFlagsOptions);
+                photos ?? this.photosDataSource);
         }
     }
 }

@@ -1,6 +1,4 @@
 ﻿using AFS.TechTask.Domain.Properties;
-using AFS.TechTask.Infrastructure;
-using Microsoft.Extensions.Options;
 using Serilog;
 
 namespace AFS.TechTask.Application.Properties.Ingest
@@ -10,17 +8,14 @@ namespace AFS.TechTask.Application.Properties.Ingest
     /// </summary>
     public class PropertyIngestService : IPropertyIngestService
     {
-        private readonly FeatureFlagsOptions featureFlags;
-
         private readonly IPropertyIngestClient client;
 
         /// <summary>
         /// Instantialises a new instance of the <see cref="PropertyIngestService"/> class.
         /// </summary>
-        public PropertyIngestService(IPropertyIngestClient propertyIngestClient, IOptions<FeatureFlagsOptions> featureFlags)
+        public PropertyIngestService(IPropertyIngestClient propertyIngestClient)
         {
             this.client = propertyIngestClient;
-            this.featureFlags = featureFlags.Value;
         }
 
         /// <summary>
@@ -29,11 +24,6 @@ namespace AFS.TechTask.Application.Properties.Ingest
         /// <returns>A <see cref="PropertyIngestResult"/> containing validated and invalid property records.</returns>
         public async Task<PropertyIngestResult> IngestPropertiesAsync()
         {
-            if (!featureFlags.EnablePropertyIngest)
-            {
-                return PropertyIngestResult.InvalidResult(DateTime.Now);
-            }
-
             try
             {
                 IReadOnlyCollection<PropertyResponse> importedProperties = await this.client.GetPropertiesAsync();
