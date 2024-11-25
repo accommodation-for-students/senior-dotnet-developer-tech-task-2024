@@ -1,7 +1,7 @@
 ﻿namespace AFS.TechTask.Domain.Properties
 {
     /// <summary>
-    /// Represents a validation error when a property has an incorrect number of bedrooms.
+    /// Represents a validation error when a property has an unsupported type.
     /// </summary>
     public class InvalidPropertyTypeException : Exception
     {
@@ -12,7 +12,7 @@
     }
 
     /// <summary>
-    /// Represents a validation error when a property has an incorrect number of photos.
+    /// Represents a validation error when a property has an invalid number of photos.
     /// </summary>
     public class InvalidNumberOfPhotosException : Exception
     {

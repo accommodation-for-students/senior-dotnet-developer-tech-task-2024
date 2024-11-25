@@ -1,7 +1,7 @@
 ﻿namespace AFS.TechTask.Domain.Properties
 {
     /// <summary>
-    /// Represents a validation error when a property has an incorrect number of bedrooms.
+    /// Represents a validation error when a property has an invalid number of bedrooms.
     /// </summary>
     public class InvalidNumberOfBedroomsException : Exception
     {
@@ -12,7 +12,7 @@
     }
 
     /// <summary>
-    /// Represents a validation error when a bedroom size description is not recognised.
+    /// Represents a validation error when a bedroom size description is not supported.
     /// </summary>
     public class InvalidRoomSizeException : Exception
     {
@@ -22,7 +22,7 @@
     }
 
     /// <summary>
-    /// Represents a validation error when a bed size description is not recognised.
+    /// Represents a validation error when a bed size description is not supported.
     /// </summary>
     public class InvalidBedSizeException : Exception
     {
